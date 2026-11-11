@@ -17,6 +17,57 @@ body.app-body {
         var(--page-background);
 }
 
+.login-page {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse at 12% 90%, rgba(57, 119, 238, 0.12), transparent 28rem),
+        radial-gradient(ellipse at 92% 0%, rgba(119, 111, 240, 0.18), transparent 30rem),
+        var(--page-background);
+}
+
+.login-card {
+    position: relative;
+    z-index: 1;
+    border: 1px solid rgba(231, 231, 242, 0.9);
+    box-shadow: 0 24px 70px rgba(45, 43, 107, 0.12);
+}
+
+.login-logo {
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0.25rem;
+    border-radius: 1.15rem;
+    background: var(--primary-gradient);
+    box-shadow: 0 8px 20px rgba(81, 77, 194, 0.2);
+}
+
+.login-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+.login-input-wrap > i {
+    position: absolute;
+    margin-left: 0.85rem;
+}
+
+.login-input-wrap input {
+    padding-left: 2.4rem;
+}
+
+.login-submit {
+    background: var(--primary-gradient);
+    box-shadow: 0 8px 18px rgba(81, 77, 194, 0.2);
+}
+
+.login-submit:hover {
+    box-shadow: 0 11px 22px rgba(81, 77, 194, 0.28);
+    transform: translateY(-1px);
+}
+
 .app-header {
     position: sticky;
     top: 0;
@@ -685,14 +736,46 @@ body.app-body {
     }
 }
 
+@page semarak-report {
+    size: A4 portrait;
+    margin: 12mm;
+}
+
+.report-print-note {
+    display: none;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.report-col-number {
+    width: 6%;
+}
+
+.report-col-activity {
+    width: 54%;
+}
+
+.report-col-count {
+    width: 10%;
+}
+
 @media print {
     body {
         background: #fff !important;
         padding: 0 !important;
+        color: #111827 !important;
+        font-family: Arial, Helvetica, sans-serif !important;
+        font-size: 9pt !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
     }
 
     header,
     nav,
+    .app-footer,
     main > .hidden,
     button,
     select,
@@ -714,6 +797,197 @@ body.app-body {
         padding: 0 !important;
         margin: 0 !important;
         max-width: none !important;
+    }
+
+    #reportDocument {
+        page: semarak-report;
+        color: #111827 !important;
+        font-size: 9pt !important;
+        line-height: 1.35 !important;
+    }
+
+    .report-letterhead {
+        border-bottom: 1px solid #6b7280 !important;
+        margin-bottom: 0.6rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+
+    .report-letterhead h2,
+    .report-letterhead h3,
+    .report-letterhead h4 {
+        font-size: 9pt !important;
+        line-height: 1.3 !important;
+    }
+
+    .report-letterhead p {
+        font-size: 7.5pt !important;
+        line-height: 1.25 !important;
+    }
+
+    .report-heading {
+        justify-content: center !important;
+        background: #fff !important;
+        border: 0 !important;
+        border-bottom: 1px solid #9ca3af !important;
+        border-radius: 0 !important;
+        margin-bottom: 0.6rem !important;
+        padding: 0 0 0.5rem !important;
+    }
+
+    .report-heading span {
+        background: transparent !important;
+        color: #111827 !important;
+        font-size: 11pt !important;
+        padding: 0 !important;
+    }
+
+    .report-heading span:last-child {
+        display: none !important;
+    }
+
+    .report-meta {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.15rem 1rem !important;
+        font-size: 8pt !important;
+        margin-bottom: 0.6rem !important;
+    }
+
+    .report-meta p {
+        margin-bottom: 0.12rem !important;
+    }
+
+    .report-meta span {
+        width: 7rem !important;
+    }
+
+    .report-scores {
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 0.3rem !important;
+        margin-bottom: 0.7rem !important;
+    }
+
+    .report-scores > div {
+        border: 1px solid #d1d5db !important;
+        border-radius: 2px !important;
+        background: #fff !important;
+        color: #111827 !important;
+        padding: 0.3rem 0.15rem !important;
+    }
+
+    .report-scores p {
+        font-size: 8pt !important;
+        line-height: 1.25 !important;
+    }
+
+    .report-scores p:nth-child(2) {
+        font-size: 12pt !important;
+    }
+
+    .report-activity,
+    .report-notes {
+        border: 0 !important;
+        border-radius: 0 !important;
+        margin-bottom: 0.65rem !important;
+        overflow: visible !important;
+    }
+
+    .report-activity h4,
+    .report-notes h4 {
+        color: #111827 !important;
+        font-size: 8.5pt !important;
+    }
+
+    .report-activity > div:first-child,
+    .report-notes > div:first-child {
+        background: #f3f4f6 !important;
+        border: 0 !important;
+        border-bottom: 1px solid #9ca3af !important;
+        padding: 0.3rem 0.4rem !important;
+    }
+
+    .report-activity .report-table {
+        display: table !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        table-layout: fixed !important;
+        border-collapse: collapse !important;
+        font-size: 7.5pt !important;
+    }
+
+    .report-activity .report-table thead {
+        display: table-header-group !important;
+    }
+
+    .report-activity .report-table tbody {
+        display: table-row-group !important;
+        width: 100% !important;
+    }
+
+    .report-activity .report-table tr {
+        display: table-row !important;
+    }
+
+    .report-activity .report-table th,
+    .report-activity .report-table td {
+        display: table-cell !important;
+        width: auto !important;
+        white-space: normal !important;
+        overflow-wrap: break-word !important;
+        word-break: normal !important;
+        vertical-align: top !important;
+    }
+
+    .report-activity th,
+    .report-activity td {
+        padding: 0.25rem 0.3rem !important;
+    }
+
+    .report-activity .report-col-number {
+        width: 6% !important;
+    }
+
+    .report-activity .report-col-activity {
+        width: 54% !important;
+    }
+
+    .report-activity .report-col-count {
+        width: 10% !important;
+    }
+
+    .report-activity .report-table td::before {
+        display: none !important;
+        content: none !important;
+    }
+
+    .report-activity tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .report-notes > div:last-child {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.75rem !important;
+        padding: 0.45rem 0 !important;
+    }
+
+    .report-notes label {
+        font-size: 8pt !important;
+        font-weight: 700 !important;
+        margin-bottom: 0.2rem !important;
+    }
+
+    .report-notes textarea {
+        display: none !important;
+    }
+
+    .report-print-note {
+        display: block !important;
+        min-height: 1.5rem;
+        border-bottom: 1px solid #d1d5db;
+        padding: 0.25rem 0;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        font-size: 8pt;
     }
 
     .child-mobile-list {
