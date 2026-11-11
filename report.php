@@ -34,33 +34,41 @@ include __DIR__ . '/includes/header.php';
     </div>
 
     <div id="reportMessage" class="hidden mb-4 rounded-lg p-3 text-sm print:hidden" role="status" aria-live="polite"></div>
-    <article id="reportDocument" class="border border-slate-200 rounded-lg p-6 md:p-10 max-w-4xl mx-auto shadow-sm bg-white">
-        <header class="text-center mb-8 border-b-2 border-black pb-4">
+    <article id="reportDocument" class="report-document border border-slate-200 rounded-lg p-6 md:p-10 max-w-4xl mx-auto shadow-sm bg-white">
+        <div class="report-letterhead text-center mb-8 border-b-2 border-black pb-4">
             <h3 class="font-bold text-lg">PEMERINTAH PROVINSI JAWA BARAT</h3>
             <h2 class="font-bold text-xl">DINAS SOSIAL</h2>
             <h4 class="font-bold">UPTD PUSAT PELAYANAN SOSIAL GRIYA BINA REMAJA</h4>
             <p class="text-xs">Jalan Maribaya No. 22 Lembang, Bandung Barat, Jawa Barat 40391</p>
             <p class="text-xs">Telepon. (022) 2786120</p>
             <p class="text-xs">Website: www.dinsos.ppsgbr.jabarprov.go.id Pos-el uptdppsgbr@gmail.com</p>
-        </header>
-
-        <div class="flex justify-between items-center bg-blue-50 border border-blue-200 p-3 rounded mb-6">
-            <span class="font-bold text-sm tracking-wide">EVALUASI KARAKTER ANAK ASUH</span>
-            <span class="bg-blue-600 text-white text-xs px-3 py-1 rounded font-bold">RAPORT PILAR KARAKTER</span>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-6">
+        <div class="report-heading flex justify-between items-center bg-blue-50 border border-blue-200 p-3 rounded mb-6">
+            <span class="font-bold text-sm tracking-wide">LAPORAN PERKEMBANGAN KARAKTER</span>
+            <span class="bg-blue-600 text-white text-xs px-3 py-1 rounded font-bold">SEMARAK</span>
+        </div>
+
+        <div class="report-meta grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-6">
             <div id="reportIdentity"></div>
             <div id="reportPeriod"></div>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-center mb-6" id="reportScores"></div>
-        <div class="border border-slate-200 rounded-lg overflow-hidden mb-6">
+        <div class="report-scores grid grid-cols-2 md:grid-cols-5 gap-3 text-center mb-6" id="reportScores"></div>
+        <div class="report-activity border border-slate-200 rounded-lg overflow-hidden mb-6">
             <div class="bg-slate-50 px-4 py-2 border-b border-slate-200">
                 <h4 class="text-sm font-bold text-slate-700">REKAPITULASI PER KEGIATAN</h4>
             </div>
             <div class="responsive-table-wrap overflow-x-auto">
-                <table class="responsive-data-table w-full text-xs text-left">
+                <table class="report-table w-full text-xs text-left">
+                    <colgroup>
+                        <col class="report-col-number">
+                        <col class="report-col-activity">
+                        <col class="report-col-count">
+                        <col class="report-col-count">
+                        <col class="report-col-count">
+                        <col class="report-col-count">
+                    </colgroup>
                     <thead class="bg-white border-b border-slate-200">
                         <tr>
                             <th class="px-3 py-2">No</th><th class="px-3 py-2">Kegiatan</th>
@@ -73,7 +81,7 @@ include __DIR__ . '/includes/header.php';
             </div>
         </div>
 
-        <div class="border border-slate-200 rounded-lg overflow-hidden">
+        <div class="report-notes border border-slate-200 rounded-lg overflow-hidden">
             <div class="bg-slate-50 px-4 py-2 border-b border-slate-200">
                 <h4 class="text-sm font-bold text-slate-700"><i class="fa-solid fa-comments mr-2"></i> CATATAN & REKOMENDASI</h4>
             </div>
@@ -81,10 +89,12 @@ include __DIR__ . '/includes/header.php';
                 <div>
                     <label for="catatanPerilaku" class="text-sm font-medium mb-2 block">Catatan Perilaku:</label>
                     <textarea id="catatanPerilaku" class="border border-slate-200 rounded w-full min-h-32 p-3 text-sm print:border-0 print:p-0 print:resize-none"></textarea>
+                    <div id="catatanPerilakuPrint" class="report-print-note"></div>
                 </div>
                 <div>
                     <label for="rekomendasi" class="text-sm font-medium mb-2 block">Rekomendasi:</label>
                     <textarea id="rekomendasi" class="border border-slate-200 rounded w-full min-h-32 p-3 text-sm print:border-0 print:p-0 print:resize-none"></textarea>
+                    <div id="rekomendasiPrint" class="report-print-note"></div>
                 </div>
             </div>
         </div>
@@ -187,6 +197,7 @@ include __DIR__ . '/includes/header.php';
             `).join('');
             document.getElementById('catatanPerilaku').value = data.catatan || '';
             document.getElementById('rekomendasi').value = data.rekomendasi || '';
+            updatePrintableNotes();
             message.className = 'hidden mb-4 rounded-lg p-3 text-sm print:hidden';
         } catch (error) {
             message.textContent = error.message;
@@ -199,6 +210,14 @@ include __DIR__ . '/includes/header.php';
     start.addEventListener('change', () => { if (period.value === 'custom') loadReport(); });
     end.addEventListener('change', () => { if (period.value === 'custom') loadReport(); });
     document.getElementById('btnCetak').addEventListener('click', () => window.print());
+    function updatePrintableNotes() {
+        document.getElementById('catatanPerilakuPrint').textContent =
+            document.getElementById('catatanPerilaku').value.trim() || '—';
+        document.getElementById('rekomendasiPrint').textContent =
+            document.getElementById('rekomendasi').value.trim() || '—';
+    }
+    document.getElementById('catatanPerilaku').addEventListener('input', updatePrintableNotes);
+    document.getElementById('rekomendasi').addEventListener('input', updatePrintableNotes);
     document.getElementById('btnSimpanCatatan').addEventListener('click', async () => {
         if (!reportData?.anak) return;
         try {
